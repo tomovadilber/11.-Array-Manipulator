@@ -1,0 +1,412 @@
+using System;
+using System.Text;
+using System.Collections.Generic;
+using System.Linq;
+
+
+namespace firstProblemMidleExam
+{
+    internal class Program
+
+    {
+        static void Main(string[] args)
+
+        {
+
+            int[] numbers = Console.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries).Select(int.Parse).ToArray();
+            int[] newArray = new int[numbers.Length];
+
+            for (int i = 0; i < numbers.Length; i++)
+            {
+                newArray[i] = numbers[i];
+            }
+
+            string[] command = Console.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries).ToArray();
+
+            while (command[0] != "end")
+            {
+
+                if (command[0] == "exchange")
+                {
+
+
+                    if (int.Parse(command[1]) < 0 || int.Parse(command[1]) >= numbers.Length)
+                    {
+                        Console.WriteLine("Invalid index");
+
+                    }
+                    else
+                    {
+                        int indexer = 0;
+                        int oldArrayIndexer = 0;
+
+
+                        for (int i = int.Parse(command[1]) + 1; i < numbers.Length; i++)
+                        {
+                            newArray[indexer] = numbers[i];
+                            indexer++;
+                        }
+
+                        for (int i = indexer; i < newArray.Length; i++)
+                        {
+                            newArray[indexer] = numbers[oldArrayIndexer];
+                            indexer++;
+                            oldArrayIndexer++;
+                        }
+
+                        for (int i = 0; i < newArray.Length; i++)
+                        {
+                            numbers[i] = newArray[i];
+                        }
+
+                        //Console.WriteLine(String.Join(", ", newArray));
+                        //Console.WriteLine(String.Join(", ", numbers));
+                    }
+
+
+                }
+                else if (command[0] == "max")
+                {
+
+                    if (command[1] == "even")
+                    {
+                        int biggestEven = -1;
+
+                        int index = 0;
+
+                        bool isFound = false;
+
+                        for (int i = newArray.Length - 1; i >= 0; i--)
+                        {
+                            if (newArray[i] % 2 == 0)
+                            {
+                                if (newArray[i] > biggestEven)
+                                {
+                                    biggestEven = newArray[i];
+                                    index = i;
+                                }
+                                isFound = true;
+                            }
+                        }
+
+
+
+                        if (isFound == true)
+                        {
+                            Console.WriteLine(index);
+                        }
+                        else
+                        {
+                            Console.WriteLine("No matches");
+                        }
+
+                    }
+                    else if (command[1] == "odd")
+                    {
+                        int biggestOdd = 0;
+
+                        int index = 0;
+                        bool isFound = false;
+                        for (int i = newArray.Length - 1; i >= 0; i--)
+                        {
+                            if (newArray[i] % 2 != 0)
+                            {
+                                if (newArray[i] > biggestOdd)
+                                {
+                                    biggestOdd = newArray[i];
+                                    index = i;
+                                }
+                                isFound = true;
+                            }
+                        }
+
+                        if (isFound == true)
+                        {
+                            Console.WriteLine(index);
+                        }
+                        else
+                        {
+                            Console.WriteLine("No matches");
+                        }
+                    }
+
+                }
+                else if (command[0] == "min")
+                {
+
+                    if (command[1] == "even")
+                    {
+                        int biggestEven = int.MaxValue;
+
+                        int index = 0;
+
+                        bool isFound = false;
+
+                        for (int i = newArray.Length - 1; i >= 0; i--)
+                        {
+                            if (newArray[i] % 2 == 0)
+                            {
+                                if (newArray[i] < biggestEven)
+                                {
+                                    biggestEven = newArray[i];
+                                    index = i;
+                                }
+                                isFound = true;
+                            }
+                        }
+
+
+
+                        if (isFound == true)
+                        {
+                            Console.WriteLine(index);
+                        }
+                        else
+                        {
+                            Console.WriteLine("No matches");
+                        }
+
+                    }
+                    else if (command[1] == "odd")
+                    {
+                        int biggestOdd = int.MaxValue;
+
+                        int index = 0;
+                        bool isFound = false;
+                        for (int i = newArray.Length - 1; i >= 0; i--)
+                        {
+                            if (newArray[i] % 2 != 0)
+                            {
+                                if (newArray[i] < biggestOdd)
+                                {
+                                    biggestOdd = newArray[i];
+                                    index = i;
+                                }
+                                isFound = true;
+                            }
+                        }
+
+                        if (isFound == true)
+                        {
+                            Console.WriteLine(index);
+                        }
+                        else
+                        {
+                            Console.WriteLine("No matches");
+                        }
+                    }
+
+                }
+                else if (command[0] == "first")
+                {
+                    if (int.Parse(command[1]) > newArray.Length)
+                    {
+                        Console.WriteLine("Invalid count");
+
+                    }
+                    else if (command[2] == "even")
+                    {
+
+                        int counter = 0;
+
+                        for (int i = 0; i < newArray.Length; i++)
+                        {
+                            if (newArray[i] % 2 == 0)
+                            {
+
+                                counter++;
+                                if (counter >= int.Parse(command[1]))
+                                {
+                                    break;
+                                }
+
+                            }
+                        }
+
+                        if (counter == 0)
+                        {
+                            Console.WriteLine("[]");
+                        }
+                        else
+                        {
+                            int[] temp = new int[counter];
+                            int index = 0;
+                            for (int i = 0; i < newArray.Length; i++)
+                            {
+                                if (newArray[i] % 2 == 0)
+                                {
+                                    temp[index] = newArray[i];
+                                    index++;
+                                    if (index >= temp.Length)
+                                    {
+                                        break;
+                                    }
+                                }
+                            }
+                            Console.WriteLine($"[{String.Join(", ", temp)}]");
+                        }
+
+                    }
+                    else if (command[2] == "odd")
+                    {
+                        if (int.Parse(command[1]) > newArray.Length)
+                        {
+                            Console.WriteLine("Invalid count");
+
+                        }
+                        else
+                        {
+                            int counter = 0;
+
+                            for (int i = 0; i < newArray.Length; i++)
+                            {
+                                if (newArray[i] % 2 != 0)
+                                {
+
+                                    counter++;
+                                    if (counter >= int.Parse(command[1]))
+                                    {
+                                        break;
+                                    }
+
+                                }
+                            }
+
+                            if (counter == 0)
+                            {
+                                Console.WriteLine("[]");
+                            }
+                            else
+                            {
+                                int[] temp = new int[counter];
+                                int index = 0;
+                                for (int i = 0; i < newArray.Length; i++)
+                                {
+                                    if (newArray[i] % 2 != 0)
+                                    {
+                                        temp[index] = newArray[i]; // 3
+                                        index++;
+                                        if (index >= temp.Length)
+                                        {
+                                            break;
+                                        }
+                                    }
+                                }
+                                Console.WriteLine($"[{String.Join(", ", temp)}]");
+                            }
+                        }
+
+
+                    }
+
+                }
+                else if (command[0] == "last")
+                {
+
+                    if (int.Parse(command[1]) > newArray.Length)
+                    {
+                        Console.WriteLine("Invalid count");
+
+                    }
+
+                    else if (command[2] == "even")
+                    {
+                        int counter = 0;
+                        int startIndex = 0;
+                        for (int i = newArray.Length - 1; i >= 0; i--)
+                        {
+                            startIndex = i;
+                            if (newArray[i] % 2 == 0)
+                            {
+
+                                counter++;
+
+                                if (counter >= int.Parse(command[1]))
+                                {
+                                    break;
+                                }
+
+                            }
+                        }
+
+                        if (counter == 0)
+                        {
+                            Console.WriteLine("[]");
+                        }
+                        else
+                        {
+                            int[] temp = new int[counter];
+                            int index = 0;
+                            for (int i = startIndex; i < newArray.Length; i++)
+                            {
+                                if (newArray[i] % 2 == 0)
+                                {
+                                    temp[index] = newArray[i];
+                                    index++;
+                                    if (index >= temp.Length)
+                                    {
+                                        break;
+                                    }
+                                }
+                            }
+                            Console.WriteLine($"[{String.Join(", ", temp)}]");
+                        }
+                    }
+                    else if (command[2] == "odd")
+                    {
+                        int counter = 0;
+                        int startIndex = 0;
+                        for (int i = newArray.Length - 1; i >= 0; i--)
+                        {
+                            startIndex = i;
+                            if (newArray[i] % 2 != 0)
+                            {
+
+                                counter++;
+
+                                if (counter >= int.Parse(command[1]))
+                                {
+                                    break;
+                                }
+
+                            }
+                        }
+
+                        if (counter == 0)
+                        {
+                            Console.WriteLine("[]");
+                        }
+                        else
+                        {
+                            int[] temp = new int[counter];
+                            int index = 0;
+                            for (int i = startIndex; i < newArray.Length; i++)
+                            {
+                                if (newArray[i] % 2 != 0)
+                                {
+                                    temp[index] = newArray[i];
+                                    index++;
+                                    if (index >= temp.Length)
+                                    {
+                                        break;
+                                    }
+                                }
+                            }
+                            Console.WriteLine($"[{String.Join(", ", temp)}]");
+                        }
+                    }
+
+                }
+
+                command = Console.ReadLine().Split(" ", StringSplitOptions.RemoveEmptyEntries).ToArray();
+            }
+
+
+
+
+
+            Console.WriteLine($"[{string.Join(", ", newArray)}]");
+
+        }
+    }
+}
